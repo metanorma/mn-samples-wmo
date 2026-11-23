@@ -1,0 +1,5 @@
+= Reference documents
+
+Source PDFs for transcription.
+
+- `S-411_Specification_1_1_0_June2014.pdf` — WMO S-411 Product Specification, v1.1.0, June 2014 (the corpus edition).
