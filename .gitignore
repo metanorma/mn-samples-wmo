@@ -1,6 +1,2 @@
-*.pdf
-*.xml
-*.html
-*.doc
 _out/
 .DS_Store
