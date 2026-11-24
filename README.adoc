@@ -15,3 +15,14 @@ The samples corpus uses the S-411 **2014 edition** (the previous edition). Curre
 == Rendering
 
 Rides the wmo taste (metanorma-taste, IHO base). The parity baseline recorded here feeds the metanorma#691 harness.
+== Prose pipeline (S-411 1.1.0)
+
+`sources/1.1.0/PS/` is machine-populated from the reference PDF (issue #3, step 1):
+
+----
+bin/extract-prose   # reference-docs/*.pdf -> build/intermediate.json + build/images/
+bin/assemble-ps     # build/intermediate.json -> sources/1.1.0/PS/
+----
+
+Needs Python 3 and poppler (`pdftotext`, `pdfimages`). Generated files carry a
+provenance header; a rerun overwrites `document.adoc`, `sections/` and `images/`.
