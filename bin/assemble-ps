@@ -91,6 +91,22 @@ def write(path, text):
         f.write(text)
 
 
+FC_BLOCK = """[lutaml_data,data/S100FC.xsd,data/S411FC.xml,fc]
+----
+{% for feature in fc.Catalog.feature_types.feature_type %}
+=== {{ feature.name }}
+
+{{ feature.definition }}
+
+{% for binding in feature.attribute_binding %}{% for attribute in fc.Catalog.simple_attributes.simple_attribute %}{% if attribute.code == binding.attribute.ref %}
+* *{{ attribute.name }}* ({{ attribute.code }}): {{ attribute.definition }}
+{% endif %}{% endfor %}{% for attribute in fc.Catalog.complex_attributes.complex_attribute %}{% if attribute.code == binding.attribute.ref %}
+* *{{ attribute.name }}* ({{ attribute.code }}): {{ attribute.definition }}
+{% endif %}{% endfor %}{% endfor %}
+{% endfor %}
+----"""
+
+
 def main(argv):
     build = argv[1] if len(argv) > 1 else DEFAULT_BUILD
     out = argv[2] if len(argv) > 2 else DEFAULT_OUT
@@ -134,6 +150,9 @@ def main(argv):
         else:
             name = "%02d-%s" % (int(h["number"]), slug(h["title"]))
         parts = []
+        if h.get("title") == "Feature Catalogue":
+            # rendered from data/S411FC.xml at build time (plugin-lutaml#389)
+            g = [h]
         for b in g:
             if b["type"] == "heading":
                 parts.append(render_heading(b))
@@ -143,6 +162,8 @@ def main(argv):
                 shutil.copyfile(os.path.join(build, "images", b["_src"]),
                                 os.path.join(out, "images", b["image"]))
                 copied.add(b["image"])
+        if h.get("title") == "Feature Catalogue":
+            parts.append(FC_BLOCK)
         write(os.path.join(out, "sections", name + ".adoc"), prov + "\n" + "\n\n".join(parts) + "\n")
         includes.append("sections/%s.adoc" % name)
 
