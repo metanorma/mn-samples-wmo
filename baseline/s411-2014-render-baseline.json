@@ -1,5 +1,5 @@
 {
-  "source_commit": "473e205",
+  "source_commit": "6a02d97",
   "branch": "wmo-3-prose-pipeline (mn-samples-wmo#4)",
   "toolchain": {
     "metanorma": "2.5.25",
@@ -11,7 +11,8 @@
   "command": "metanorma compile -t wmo document.adoc",
   "corpus": {
     "includes": 20,
-    "annex_d": "plain AsciiDoc, 28 feature types, 131 attribute references"
+    "annex_d": "plain AsciiDoc, 28 feature types, 131 attribute references",
+    "cover_assets": "cover-image.jpg and wmo-cover-art.png from metanorma/S-411-Product-Specification sources/1.2.1/PS"
   },
   "documents": [
     {
@@ -23,13 +24,10 @@
         "embedded_images": 44
       },
       "pdf": {
-        "result": "PASS-WITH-ERRORS",
+        "result": "PASS",
         "pages": 96,
-        "bytes": 1234603,
-        "errors": [
-          "Image not found: cover-image.jpg (x2)",
-          "Image not found: wmo-cover-art.png (x1)"
-        ],
+        "bytes": 1931427,
+        "errors": [],
         "text_stable_across_runs": true
       },
       "xml": {
@@ -38,7 +36,6 @@
       }
     }
   ],
-  "known_failure": "[lutaml_data] annex D binding aborts with NameError LutamlXmlS100fc::ID; see lutaml-id-nameerror.md outside the repo; the binding source is in sections/93-annex-d-feature-catalogue.lutaml-source.txt",
   "corpus_fingerprint": {
     "document.adoc": "2436a1e0f062518d86cbd5d41f5c2a4c09e21b1da03b3f3d8ed61d0d661d255b",
     "sections/00-version-history.adoc": "1cb25879270285580a8bd901a7a9b36ed384ef415c21e081d0137ca1258ae1c9",
