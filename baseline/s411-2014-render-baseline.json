@@ -1,5 +1,5 @@
 {
-  "source_commit": "2012772",
+  "source_commit": "473e205",
   "branch": "wmo-3-prose-pipeline (mn-samples-wmo#4)",
   "toolchain": {
     "metanorma": "2.5.25",
@@ -10,7 +10,7 @@
   },
   "command": "metanorma compile -t wmo document.adoc",
   "corpus": {
-    "includes": 21,
+    "includes": 20,
     "annex_d": "plain AsciiDoc, 28 feature types, 131 attribute references"
   },
   "documents": [
@@ -57,8 +57,7 @@
     "sections/13-additional-information.adoc": "12525e7bdc97ed6725dc22523f44df1b4e0a7752979bab0f56514fc42b44dd82",
     "sections/91-annex-a-data-classification-and-encoding-guide.adoc": "d39322c00e140ea885e3cb6e904ebffb74272df5470224c26f1aef0e6a8d736c",
     "sections/92-annex-b-data-product-format-encoding.adoc": "e09db630f699beec505ba40a59a25cc187e53a272e85e63e48c637de459ddc38",
-    "sections/93-annex-d-feature-catalogue.adoc": "d129f21df998e03a1b3b5fc120eab345db4c49ed40407cd37dac7376239bbd5f",
-    "sections/93-annex-d-feature-catalogue.lutaml-source.txt": "f082a559785112e7336ca81056debff6e636aee834eb1d92306821afd355d71f",
+    "sections/93-annex-d-feature-catalogue.adoc": "00509b61056339403ec9a1b711dbd2b44ac823a7ba84e9504913f5478a7c3c75",
     "sections/94-annex-f-portrayal-catalogue-se-xslt-svg.adoc": "230dfdf415c9b6a36f975323b6b4d71217f594ddc95839c41360585c92054504",
     "sections/95-annex-g-encoding-example-for-all-ice-features.adoc": "9ef6148d2657bbe02e41674c7f3e5237f8df1e6c099d8348fb2ab75e58bc9251",
     "sections/96-annex-i-exchange-catalogue-example.adoc": "6b5d4eb5dade2807ddd2b20c6c4309841a80313615c4367ddc174293730db8de"
