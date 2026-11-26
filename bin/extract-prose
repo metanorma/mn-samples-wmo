@@ -33,7 +33,12 @@ SENTENCE_END = tuple('.:;)?!"”')
 
 
 def run(cmd):
-    return subprocess.run(cmd, check=True, stdout=subprocess.PIPE).stdout
+    try:
+        return subprocess.run(cmd, check=True, stdout=subprocess.PIPE).stdout
+    except FileNotFoundError:
+        raise SystemExit("extract-prose: %s not found on PATH (install poppler-utils)" % cmd[0])
+    except subprocess.CalledProcessError as e:
+        raise SystemExit("extract-prose: %s exited %d (unreadable or malformed PDF?)" % (cmd[0], e.returncode))
 
 
 def cells_of(line):
@@ -450,6 +455,8 @@ def attach_images(blocks, entries):
 def main(argv):
     pdf = argv[1] if len(argv) > 1 else DEFAULT_PDF
     build = argv[2] if len(argv) > 2 else DEFAULT_BUILD
+    if not os.path.isfile(pdf):
+        raise SystemExit("extract-prose: no such PDF: %s" % pdf)
     os.makedirs(build, exist_ok=True)
     pages = read_pages(pdf)
     front = parse_front(pages)
