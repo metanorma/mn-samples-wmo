@@ -1,0 +1,17 @@
+// Source of the lutaml_data binding that produced the annex D content in
+// 93-annex-d-feature-catalogue.adoc. Not included by document.adoc. It returns
+// to the build when the xs:ID -> ID NameError in lutaml-model is fixed upstream.
+[lutaml_data,data/S100FC.xsd,data/S411FC.xml,fc]
+----
+{% for feature in fc.Catalog.feature_types.feature_type %}
+=== {{ feature.name }}
+
+{{ feature.definition }}
+
+{% for binding in feature.attribute_binding %}{% for attribute in fc.Catalog.simple_attributes.simple_attribute %}{% if attribute.code == binding.attribute.ref %}
+* *{{ attribute.name }}* ({{ attribute.code }}): {{ attribute.definition }}
+{% endif %}{% endfor %}{% for attribute in fc.Catalog.complex_attributes.complex_attribute %}{% if attribute.code == binding.attribute.ref %}
+* *{{ attribute.name }}* ({{ attribute.code }}): {{ attribute.definition }}
+{% endif %}{% endfor %}{% endfor %}
+{% endfor %}
+----
