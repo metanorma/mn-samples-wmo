@@ -88,8 +88,11 @@ def render_heading(b):
 
 
 def fc_to_adoc(catalogue):
-    return subprocess.run([sys.executable, FC_TO_ADOC, catalogue], check=True,
-                          capture_output=True, text=True).stdout
+    try:
+        return subprocess.run([sys.executable, FC_TO_ADOC, catalogue], check=True,
+                              capture_output=True, text=True).stdout
+    except subprocess.CalledProcessError as e:
+        raise SystemExit("assemble-ps: bin/fc-to-adoc failed: %s" % ((e.stderr or "").strip().splitlines() or ["exit %d" % e.returncode])[-1])
 
 
 def write(path, text):
@@ -101,8 +104,12 @@ def write(path, text):
 def main(argv):
     build = argv[1] if len(argv) > 1 else DEFAULT_BUILD
     out = argv[2] if len(argv) > 2 else DEFAULT_OUT
-    with open(os.path.join(build, "intermediate.json"), encoding="utf-8") as f:
-        doc = json.load(f)
+    path = os.path.join(build, "intermediate.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            doc = json.load(f)
+    except (OSError, ValueError) as e:
+        raise SystemExit("assemble-ps: cannot read %s: %s" % (path, e))
     src = doc["source"]
     front = doc["front"]
     prov = provenance(src)
