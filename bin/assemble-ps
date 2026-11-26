@@ -14,11 +14,13 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_BUILD = os.path.join(ROOT, "build")
 DEFAULT_OUT = os.path.join(ROOT, "sources", "1.1.0", "PS")
+FC_TO_ADOC = os.path.join(ROOT, "bin", "fc-to-adoc")
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 
@@ -85,26 +87,15 @@ def render_heading(b):
     return "[[%s]]\n%s %s" % (ident, "=" * (b["level"] + 1), b["title"])
 
 
+def fc_to_adoc(catalogue):
+    return subprocess.run([sys.executable, FC_TO_ADOC, catalogue], check=True,
+                          capture_output=True, text=True).stdout
+
+
 def write(path, text):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
-
-
-FC_BLOCK = """[lutaml_data,data/S100FC.xsd,data/S411FC.xml,fc]
-----
-{% for feature in fc.Catalog.feature_types.feature_type %}
-=== {{ feature.name }}
-
-{{ feature.definition }}
-
-{% for binding in feature.attribute_binding %}{% for attribute in fc.Catalog.simple_attributes.simple_attribute %}{% if attribute.code == binding.attribute.ref %}
-* *{{ attribute.name }}* ({{ attribute.code }}): {{ attribute.definition }}
-{% endif %}{% endfor %}{% for attribute in fc.Catalog.complex_attributes.complex_attribute %}{% if attribute.code == binding.attribute.ref %}
-* *{{ attribute.name }}* ({{ attribute.code }}): {{ attribute.definition }}
-{% endif %}{% endfor %}{% endfor %}
-{% endfor %}
-----"""
 
 
 def main(argv):
@@ -149,22 +140,21 @@ def main(argv):
             name = "%d-annex-%s-%s" % (90 + annex_n, h["annex"].lower(), slug(h["title"]))
         else:
             name = "%02d-%s" % (int(h["number"]), slug(h["title"]))
-        parts = []
         if h.get("title") == "Feature Catalogue":
-            # rendered from data/S411FC.xml at build time (plugin-lutaml#389)
-            g = [h]
-        for b in g:
-            if b["type"] == "heading":
-                parts.append(render_heading(b))
-            else:
-                parts.append(render_block(b))
-            if "_src" in b and b["image"] not in copied:
-                shutil.copyfile(os.path.join(build, "images", b["_src"]),
-                                os.path.join(out, "images", b["image"]))
-                copied.add(b["image"])
-        if h.get("title") == "Feature Catalogue":
-            parts.append(FC_BLOCK)
-        write(os.path.join(out, "sections", name + ".adoc"), prov + "\n" + "\n\n".join(parts) + "\n")
+            text = fc_to_adoc(os.path.join(out, "data", "S411FC.xml"))
+        else:
+            parts = []
+            for b in g:
+                if b["type"] == "heading":
+                    parts.append(render_heading(b))
+                else:
+                    parts.append(render_block(b))
+                if "_src" in b and b["image"] not in copied:
+                    shutil.copyfile(os.path.join(build, "images", b["_src"]),
+                                    os.path.join(out, "images", b["image"]))
+                    copied.add(b["image"])
+            text = prov + "\n" + "\n\n".join(parts) + "\n"
+        write(os.path.join(out, "sections", name + ".adoc"), text)
         includes.append("sections/%s.adoc" % name)
 
     month = MONTHS.index(front["month"]) + 1
