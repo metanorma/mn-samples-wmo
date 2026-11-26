@@ -2,3 +2,12 @@ _out/
 .DS_Store
 build/
 __pycache__/
+# metanorma compile outputs and relaton cache written into the PS source folder
+sources/*/PS/document.html
+sources/*/PS/document.xml
+sources/*/PS/document.presentation.xml
+sources/*/PS/document.pdf
+sources/*/PS/document.pdf.err
+sources/*/PS/document.err.html
+sources/*/PS/document.asciidoc.log.txt
+sources/*/PS/relaton/
