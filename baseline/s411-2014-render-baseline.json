@@ -1,0 +1,68 @@
+{
+  "source_commit": "a67625a",
+  "branch": "wmo-3-prose-pipeline (mn-samples-wmo#4)",
+  "toolchain": {
+    "metanorma": "2.5.25",
+    "metanorma-taste": "1.1.17 (released gem, wmo flavor)",
+    "metanorma-plugin-lutaml": "0.7.82",
+    "lutaml-model": "0.8.185",
+    "pdf-engine": "mn2pdf 2.74"
+  },
+  "command": "metanorma compile -t wmo document.adoc",
+  "documents": [
+    {
+      "id": "S-411-2014-1.1.0",
+      "source": "document.adoc",
+      "includes": 20,
+      "result": "FAIL",
+      "failure": "annex D lutaml_data binding raises NameError LutamlXmlS100fc::ID; no HTML or PDF produced"
+    },
+    {
+      "id": "S-411-2014-1.1.0-without-annex-d",
+      "source": "document.adoc minus the annex D include",
+      "includes": 19,
+      "html": {
+        "result": "PASS",
+        "bytes": 1345123,
+        "sha256": "52ad42979e433d4ce8bbb297c507e6797bd325673549960248041c1185e8f2a4",
+        "embedded_images": 44
+      },
+      "pdf": {
+        "result": "PASS-WITH-ERRORS",
+        "pages": 86,
+        "bytes": 1149538,
+        "errors": [
+          "Image not found: wmo-cover-art.png",
+          "Image not found: cover-image.jpg"
+        ]
+      },
+      "xml": {
+        "sha256": "95804aa3edbe866b222cbc214e40888ee4b1b3f25642946aa40d2a62ca47f072"
+      },
+      "pdf_text_sha256_note": "PDF bytes differ across runs; the extracted text is stable"
+    }
+  ],
+  "corpus_fingerprint": {
+    "document.adoc": "2436a1e0f062518d86cbd5d41f5c2a4c09e21b1da03b3f3d8ed61d0d661d255b",
+    "sections/00-version-history.adoc": "1cb25879270285580a8bd901a7a9b36ed384ef415c21e081d0137ca1258ae1c9",
+    "sections/01-overview.adoc": "f4352040c82dada736b9be982259cfa960537dc60a9639fef8e0ef336f954005",
+    "sections/02-specification-scopes.adoc": "c8f01504be845663ecfc53a97207fc10f7c45e11275228642f244a0fd6140ed5",
+    "sections/03-data-product-identification.adoc": "9dd3627093cc482e5807b63d5409d58a9f3f9b39ccad3c7d7e1bf73abbc48c32",
+    "sections/04-data-content-and-structure.adoc": "c1553ee0c1329e7069cb98b4c41f0befb7feb2a6981d7dd82e4380ea2ab170dc",
+    "sections/05-coordinate-reference-systems-crs.adoc": "77af97778c1b8a740a74b00055ae322d46f86102d975df25cd4707fe79bd46bc",
+    "sections/06-data-quality.adoc": "20cf2ab87e501b6d69fa442895f33270700e3b458e3d1d4055be0ed0ba3ec313",
+    "sections/07-data-capture-and-classification.adoc": "fd95c4f45e5f42487b6dc20baa765413bdf7fa82141e9483de1508f66b277838",
+    "sections/08-data-product-format-encoding.adoc": "662fcc5649c05b3a18c6db6bbb66840196e737ff6d856d70fd9c22ca08d7f176",
+    "sections/09-data-product-delivery.adoc": "1adf53f0ad179e7d25d292b356c48202a6c047d8722674110bbe7e5a34dc0f1f",
+    "sections/10-metadata.adoc": "b1b90a6232f122d81e882e9edf3a90796ef8cce3323e4fa40bbf4094df4d9a5c",
+    "sections/11-maintenance.adoc": "c58257bec4b8785cc32a8b8992f1d4fd44631745162f59fa61b3227fa1cbd3a9",
+    "sections/12-portrayal.adoc": "425e59e2b535492f18e8ad533ebb92900d941554c679e19a30cf6a6c6488dc5b",
+    "sections/13-additional-information.adoc": "12525e7bdc97ed6725dc22523f44df1b4e0a7752979bab0f56514fc42b44dd82",
+    "sections/91-annex-a-data-classification-and-encoding-guide.adoc": "d39322c00e140ea885e3cb6e904ebffb74272df5470224c26f1aef0e6a8d736c",
+    "sections/92-annex-b-data-product-format-encoding.adoc": "e09db630f699beec505ba40a59a25cc187e53a272e85e63e48c637de459ddc38",
+    "sections/93-annex-d-feature-catalogue.adoc": "0f69fd220d47928e47b69e51e08efab3fd1ce930b1a15a9f377b817243720892",
+    "sections/94-annex-f-portrayal-catalogue-se-xslt-svg.adoc": "230dfdf415c9b6a36f975323b6b4d71217f594ddc95839c41360585c92054504",
+    "sections/95-annex-g-encoding-example-for-all-ice-features.adoc": "9ef6148d2657bbe02e41674c7f3e5237f8df1e6c099d8348fb2ab75e58bc9251",
+    "sections/96-annex-i-exchange-catalogue-example.adoc": "6b5d4eb5dade2807ddd2b20c6c4309841a80313615c4367ddc174293730db8de"
+  }
+}
