@@ -42,4 +42,11 @@ def main(path):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    if len(sys.argv) != 2:
+        sys.exit("usage: bin/fc-to-adoc FEATURE_CATALOGUE.xml")
+    try:
+        main(sys.argv[1])
+    except OSError as e:
+        sys.exit("fc-to-adoc: cannot read %s: %s" % (sys.argv[1], e.strerror))
+    except ET.ParseError as e:
+        sys.exit("fc-to-adoc: %s is not well-formed XML: %s" % (sys.argv[1], e))
